@@ -1,10 +1,16 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
+import { User } from '../models/user.model';
+import { RegisterForm } from '../models/register-form.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private apiUrl = 'http://localhost:8085/auth';
+
+  headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+  });
 
   constructor(private http: HttpClient) {}
 
@@ -12,8 +18,10 @@ export class AuthService {
   //   return this.http.post(`${this.apiUrl}/login`, credentials);
   // }
 
-  register(data: { username: string; password: string }) {
-    return this.http.post(`${this.apiUrl}/register`, data);
+  register(data: RegisterForm) {
+    return this.http.post(`${this.apiUrl}/register`, data, {
+      headers: this.headers,
+    });
   }
 
   // logout() {
@@ -32,7 +40,7 @@ export class AuthService {
   //   return !!this.getToken();
   // }
 
-  login(data: { email: string; password: string }) {
+  login(data: User) {
     return this.http.post<{ token: string }>('/api/auth/login', data).pipe(
       tap((res) => {
         localStorage.setItem('token', res.token);

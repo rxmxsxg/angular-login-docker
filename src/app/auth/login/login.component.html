@@ -1,7 +1,7 @@
 <div class="auth-container">
   <h2>Login</h2>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <input type="email" placeholder="Email" formControlName="email" />
+    <input type="username" placeholder="Username" formControlName="username" />
     <input type="password" placeholder="Password" formControlName="password" />
     <button type="submit">Login</button>
   </form>
